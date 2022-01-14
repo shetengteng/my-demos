@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 对象复制
+        let user = { name: "stt", age: 22 }
+        let copyUser = { ...user }
+        console.log(copyUser)
+
+        // 对象合并
+        let age = { age: 22 }
+        let name = { name: "stt", age: 23 }
+        let mergeUser = { ...name, ...age } // 如果有相同的属性，那么会后添加的相同属性覆盖，这里age=22
+        console.log(mergeUser)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "items": [
+            {
+                "name": "stt",
+                "age": 22
+            },
+            {
+                "name": "stt2",
+                "age": 23
+            }
+        ]
+    }
+}
