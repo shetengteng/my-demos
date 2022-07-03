@@ -1,0 +1,46 @@
+package com.stt.demo.consumer.base;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+public class CustomConsumerAssignPartition {
+    public static void main(String[] args) {
+        // 创建消费者配置对象
+        Properties properties = new Properties();
+        // 给配置对象添加参数
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "linux101:9092");
+        // 配置key反序列化
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        // 配置value反序列化
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        // 配置消费者组 id
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "stt");
+        // 注册要消费的主题以及分区
+        List<TopicPartition> topicPartitions = new ArrayList<>();
+        topicPartitions.add(new TopicPartition("first",0));
+
+        // 创建消费者对象
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(properties);
+        // 使用分配的分区信息
+        kafkaConsumer.assign(topicPartitions);
+
+        // 拉取数据
+        while (true) {
+            // 拉取数据，时间间隔设置1s
+            ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(Duration.ofSeconds(1));
+            // 打印消费到的数据
+            for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+                System.out.println(consumerRecord);
+            }
+        }
+    }
+}
